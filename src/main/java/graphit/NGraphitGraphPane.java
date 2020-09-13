@@ -9,6 +9,8 @@ import java.awt.Point;
 
 public class NGraphitGraphPane extends JPanel {
 
+  private static final long serialVersionUID = -8637712318103083791L;
+
   private int lineSpacing;
   private GraphController controller;
   private Function f;
@@ -29,7 +31,7 @@ public class NGraphitGraphPane extends JPanel {
   private static final int GRAPH_WIDTH = 2000;
   private static final int GRAPH_HEIGHT = 2000;
   private Point origin = new Point(GRAPH_WIDTH / 2, GRAPH_HEIGHT / 2);
-  private Point mouseCenter;
+  private Point mouseCenter = new Point(0, 0);
   private List<GraphPoint> points;
 
   private int drawCircleX;
@@ -188,21 +190,18 @@ public class NGraphitGraphPane extends JPanel {
 
     public void mouseDragged(MouseEvent me) {
 
-      if (mouseCenter != null) {
+      JViewport viewPort = (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, NGraphitGraphPane.this);
 
-        JViewport viewPort = (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, NGraphitGraphPane.this);
+      if (viewPort != null) {
+        int deltaX = mouseCenter.x - me.getX();
+        int deltaY = mouseCenter.y - me.getY();
 
-        if (viewPort != null) {
-          int deltaX = mouseCenter.x - me.getX();
-          int deltaY = mouseCenter.y - me.getY();
+        Rectangle view = viewPort.getViewRect();
+        view.x += deltaX;
+        view.y += deltaY;
 
-          Rectangle view = viewPort.getViewRect();
-          view.x += deltaX;
-          view.y += deltaY;
+        NGraphitGraphPane.this.scrollRectToVisible(view);
 
-          NGraphitGraphPane.this.scrollRectToVisible(view);
-
-        }
       }
     }
 
