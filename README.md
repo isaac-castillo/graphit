@@ -7,3 +7,5 @@
 `mvn clean compile assembly:single`
 
 `java -jar target/graphit-1.0-SNAPSHOT-jar-with-dependencies.jar`
+
+![Graphit App](screenshots/readme_screenshot.png "Graphit")
